@@ -1,0 +1,30 @@
+Get-Verb															      // commands
+Get-Command -Noun Json*
+Get-Command -Verb Update
+Get-Help -Name 'ls'
+update-help 															//installs cmd help files needs to run as admin
+Get-Help Get-UICulture -Online
+Get-Help -Name Get-FileHash -Examples
+Get-Module -ListAvailable | Where-Object -Property HelpInfoUri 							// help is available for this modules
+Get-Process
+Get-Process -Name 'name-of-process' | Get-Member
+Get-Process -Name 'cmd' | Get-Member | Select-Object Name, Definition
+Get-Process Notepad | Format-List -Property *
+Get-Process Notepad | Get-Member -Name Session*
+Get-Process | Sort-Object -Descending -Property Name
+Get-Process | Sort-Object -Property CPU
+"object"	| Get-Member													// get info about object
+
+//Install basic modules
+Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force
+Set-ExecutionPolicy AllSigned
+Import-Module Az.Accounts 
+Connect-AzAccount
+
+Get-AzContext | Select-Object -Property 'Name' 										//filter output by Name attribure
+Get-AzResourceGroup | Format-Table 												//better format of table if collums are same
+$vm = Get-AzVM  -Name azureUbuntu -ResourceGroupName cloud-shell-storage-westeurope				//in $vm is object of azure virtual machine
+Update-AzVM -ResourceGroupName cloud-shell-storage-westeurope -VM $vm
+
+//create VM
+New-AzVm -ResourceGroupName learn-be8858da-0e64-437f-9f46-8b37dbf4f196 -Name "testvm-eus-01" -Credential (Get-Credential) -Location "East US" -Image UbuntuLTS -OpenPorts 22 -PublicIpAddressName "testvm-01"
